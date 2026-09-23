@@ -1,0 +1,1072 @@
+/* ============================================================
+   PORTFOLIO — stylesheet
+   ------------------------------------------------------------
+   Written MOBILE FIRST. The rules at the top are what a phone
+   sees. Each @media block further down ADDS to those rules as
+   the screen gets wider:
+
+        base     phone      up to 639px
+        640px    big phone / small tablet portrait
+        900px    tablet landscape / small laptop
+        1200px   desktop
+
+   So if you want to change how something looks on phones,
+   edit the main rule. If you want to change it only on
+   desktop, edit inside the 900px or 1200px block.
+
+   Everything you'd normally want to recolour lives in :root.
+   ============================================================ */
+
+:root{
+  /* --- colours --- */
+  --bg:        #08070B;   /* page background */
+  --fg:        #F4F2F7;   /* main text */
+  --fg-dim:    #9B97A8;   /* secondary text */
+  --line:      rgba(255,255,255,.14);
+
+  /* the signature gradient.
+     NOTE: if you change these, also change the three stop-color
+     values in the <svg> gradient at the top of index.html so the
+     big headlines match. */
+  --g1:        #FF2D95;
+  --g2:        #7B2FF7;
+  --g3:        #00E5FF;
+
+  /* --- type --- */
+  --display:   'Archivo Black', 'Helvetica Neue', Impact, sans-serif;
+  --body:      'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+
+  /* --- layout ---
+     --pad is the space down the left and right of every section.
+     It grows with the screen, and env(safe-area-inset) keeps
+     text clear of the notch on iPhones held sideways. */
+  --pad:       calc(clamp(18px, 5vw, 72px) + env(safe-area-inset-left, 0px));
+  --maxw:      1440px;
+  --nav-h:     58px;
+}
+
+/* ---------- reset ---------- */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  scroll-behavior:smooth;
+  /* stops iOS from inflating font sizes when you rotate the phone */
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--body);
+  font-size:16px;              /* never below 16px, or iOS zooms in */
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;           /* belt and braces against sideways scroll */
+}
+
+img,svg{ max-width:100%; display:block; }
+img{ height:auto; }
+a{ color:inherit; }
+p{ margin:0 0 .7em; }
+ul{ margin:0; padding:0; list-style:none; }
+
+:focus-visible{
+  outline:2px solid var(--g3);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+/* long words and URLs can't push the layout sideways */
+h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
+
+/* ---------- the giant SVG headlines ----------
+   These scale themselves. textLength in the HTML forces the word
+   to be exactly as wide as its box, so it fills the screen
+   perfectly at 375px and at 2560px with no font-size juggling. */
+.big-type{ width:100%; height:auto; }
+.big-type text{
+  font-family:var(--display);
+  font-size:150px;             /* only relative to the viewBox, not the screen */
+  fill:url(#gradText);
+}
+
+.h-section{
+  font-family:var(--display);
+  font-size:clamp(1.5rem,5vw,2.6rem);
+  line-height:1;
+  letter-spacing:-.02em;
+  margin:0 0 .8em;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:var(--nav-h);
+  padding:8px var(--pad);
+  padding-top:calc(8px + env(safe-area-inset-top, 0px));
+  background:rgba(8,7,11,0);
+  border-bottom:1px solid transparent;
+  transition:background .3s ease, border-color .3s ease;
+}
+.nav.is-stuck,
+.nav.is-open{
+  background:rgba(8,7,11,.92);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  border-bottom-color:var(--line);
+}
+
+.nav__mark{
+  font-family:var(--display);
+  font-size:1.05rem;
+  letter-spacing:-.02em;
+  text-decoration:none;
+  /* 44px is the minimum comfortable tap target on a phone */
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+}
+
+/* --- the hamburger button (phones + tablets) --- */
+.nav__toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-height:44px;
+  padding:0 4px;
+  background:none;
+  border:0;
+  color:var(--fg);
+  font-family:var(--body);
+  font-size:.92rem;
+  cursor:pointer;
+}
+.nav__bars{ display:block; width:20px; }
+.nav__bars i{
+  display:block;
+  height:1.5px;
+  background:currentColor;
+  transition:transform .3s ease, opacity .3s ease;
+}
+.nav__bars i:first-child{ margin-bottom:5px; }
+.nav.is-open .nav__bars i:first-child{ transform:translateY(3.25px) rotate(45deg); }
+.nav.is-open .nav__bars i:last-child{  transform:translateY(-3.25px) rotate(-45deg); }
+
+/* --- the menu itself, as a drop-down panel on small screens --- */
+.nav__menu{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  display:grid;
+  gap:2px;
+  padding:0 var(--pad) 18px;
+  background:rgba(8,7,11,.97);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+
+  /* hidden by default — no height, can't be clicked, can't be tabbed to */
+  max-height:0;
+  overflow:hidden;
+  visibility:hidden;
+  opacity:0;
+  transition:max-height .35s ease, opacity .25s ease, visibility .35s;
+}
+.nav.is-open .nav__menu{
+  max-height:70svh;
+  visibility:visible;
+  opacity:1;
+}
+.nav__menu a{
+  text-decoration:none;
+  font-size:1.05rem;
+  padding:12px 0;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+}
+.nav__cta{
+  margin-top:14px;
+  justify-content:center;
+  border-bottom:0 !important;
+  font-weight:400;
+  font-size:.95rem !important;
+  border-radius:999px;
+  color:#0A0910;
+  background:linear-gradient(95deg,var(--g1),var(--g2) 55%,var(--g3));
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100vh;      /* fallback for older browsers */
+  min-height:100svh;     /* the honest height on mobile, ignoring the URL bar */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:calc(var(--nav-h) + 40px) var(--pad) 32px;
+  padding-bottom:calc(32px + env(safe-area-inset-bottom, 0px));
+  overflow:hidden;
+  isolation:isolate;
+}
+/* ------------------------------------------------------------
+   HERO LAYERING — this is what puts you in front of the word.
+   Four stacked layers, back to front:
+
+     layer 1  .hero__glow      the coloured blur
+     layer 2  .hero__word      the giant PORTFOLIO letters
+     layer 3  .hero__portrait  your cut-out photo
+     layer 4  .hero__scrim     dark fade at the bottom
+     layer 5  .hero__meta      your name and skills
+
+   If you ever want the letters in FRONT of your photo instead,
+   swap the z-index numbers on .hero__word and .hero__portrait.
+   ------------------------------------------------------------ */
+
+.hero__glow{
+  position:absolute;
+  z-index:1;
+  inset:-15% -15% auto -15%;
+  height:120%;
+  background:
+    radial-gradient(60% 55% at 22% 38%, var(--g1) 0%, transparent 62%),
+    radial-gradient(55% 60% at 74% 30%, var(--g3) 0%, transparent 60%),
+    radial-gradient(85% 75% at 50% 55%, var(--g2) 0%, transparent 70%);
+  filter:blur(30px);
+  opacity:.6;
+}
+
+.hero__word{
+  position:absolute;
+  z-index:2;
+  left:var(--pad);
+  right:var(--pad);
+  /* 44% rather than 50% so the word sits around head height,
+     which is what makes the photo overlap the middle letters.
+     Nudge this number to move the word up or down. */
+  top:44%;
+  transform:translateY(-50%);
+}
+.hero__word text{
+  font-family:var(--display);
+  font-size:190px;       /* relative to the viewBox only, not the screen */
+  fill:#fff;
+}
+
+.hero__portrait{
+  position:absolute;
+  z-index:3;
+  bottom:0;
+  left:50%;                      /* centred horizontally */
+  transform:translateX(-50%);
+  height:62%;                    /* phone size; grows at wider breakpoints */
+  display:flex;
+  align-items:flex-end;
+  pointer-events:none;
+}
+.hero__portrait img{
+  height:100%;
+  width:auto;
+  max-width:none;
+  object-fit:contain;
+  object-position:bottom center;
+  filter:drop-shadow(0 26px 55px rgba(0,0,0,.6));
+}
+
+/* Placeholder silhouette, shown only while portrait.png is missing,
+   so you can see the layering before you add your own photo.
+   It disappears on its own the moment the real file exists. */
+.hero__portrait.is-empty::after{
+  content:"";
+  display:block;
+  height:100%;
+  aspect-ratio:3/4;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400'%3E%3Cg fill='%2308070B'%3E%3Ccircle cx='150' cy='95' r='62'/%3E%3Cpath d='M150 165c-62 0-104 40-112 95l-12 140h248l-12-140c-8-55-50-95-112-95z'/%3E%3C/g%3E%3C/svg%3E") no-repeat bottom center / contain;
+  opacity:.82;
+  filter:drop-shadow(0 26px 55px rgba(0,0,0,.6));
+}
+
+.hero__scrim{
+  position:absolute;
+  z-index:4;
+  inset:auto 0 0 0;
+  height:42%;
+  pointer-events:none;
+  background:linear-gradient(to top, var(--bg) 2%, rgba(8,7,11,.75) 38%, transparent 100%);
+}
+
+.hero__meta{
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+.hero__id p,
+.hero__skills p{ margin:0; line-height:1.5; }
+.hero__id{ font-size:.95rem; }
+.hero__name{
+  font-family:var(--display);
+  font-size:1.25rem;
+  letter-spacing:-.02em;
+  margin-bottom:3px !important;
+}
+.hero__id a{
+  text-decoration:none;
+  border-bottom:1px solid var(--line);
+  display:inline-block;
+  padding:4px 0;
+}
+.hero__skills{
+  font-size:.92rem;
+  max-width:34ch;
+  color:#E8E5F0;
+}
+.hero__scroll{
+  position:relative;
+  z-index:5;
+  margin-top:26px;
+  align-self:flex-start;
+  font-size:.8rem;
+  letter-spacing:.14em;
+  text-decoration:none;
+  color:var(--fg-dim);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:44px;
+}
+.hero__scroll::after{
+  content:"";
+  width:38px;
+  height:1px;
+  background:var(--fg-dim);
+}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:clamp(56px,10vw,140px) var(--pad);
+}
+.about__top{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:36px;
+  padding-bottom:clamp(38px,7vw,86px);
+  border-bottom:1px solid var(--line);
+}
+.about__intro p{
+  max-width:60ch;
+  color:#D8D5E2;
+  font-size:1.02rem;
+}
+.about__contact li{
+  display:grid;
+  grid-template-columns:88px 1fr;
+  gap:12px;
+  padding:12px 0;
+  border-top:1px solid var(--line);
+  font-size:.94rem;
+}
+.about__contact li:last-child{ border-bottom:1px solid var(--line); }
+.about__contact span{ color:var(--fg-dim); }
+.about__contact a{ text-decoration:none; }
+.about__contact a:hover{ text-decoration:underline; }
+
+.about__cols{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:34px;
+  padding-top:clamp(34px,6vw,72px);
+}
+.col h3{
+  font-family:var(--display);
+  font-size:clamp(1.45rem,4.5vw,2.3rem);
+  letter-spacing:-.02em;
+  margin:0 0 18px;
+  background:linear-gradient(95deg,var(--g1),var(--g2) 50%,var(--g3));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;   /* Safari / iOS needs this too */
+}
+.col__item{ margin-bottom:20px; }
+.col__item p{ margin:0; font-size:.95rem; color:#CFCBDA; }
+.col__title{ font-weight:600; color:var(--fg) !important; }
+.col__muted{ color:var(--fg-dim) !important; font-size:.86rem !important; margin-top:4px !important; }
+
+.skills li{ margin-bottom:15px; font-size:.95rem; }
+.skills i{
+  display:block;
+  height:3px;
+  margin-top:7px;
+  background:var(--line);
+  position:relative;
+}
+.skills i::after{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:var(--level);
+  background:linear-gradient(90deg,var(--g1),var(--g3));
+}
+
+/* ============================================================
+   LOGOFOLIO
+   ============================================================ */
+.logos{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:0 var(--pad) clamp(56px,10vw,130px);
+}
+.logos__head{ margin-bottom:14px; }
+.logos__note{
+  color:var(--fg-dim);
+  margin:0 0 28px;
+  max-width:52ch;
+}
+.logos__grid{
+  position:relative;
+  z-index:1;
+  max-width:var(--maxw);
+  margin:0 auto;
+  column-count:2;
+  column-gap:8px;
+}
+
+.logo{
+  position:relative;
+  display:block;
+  margin:0 0 8px;
+  break-inside:avoid;
+  background:var(--bg);
+  overflow:hidden;
+}
+.logo img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.logo__ph{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  aspect-ratio:4/3;
+  padding:12px;
+  font-family:var(--display);
+  font-size:.95rem;
+  color:rgba(255,255,255,.6);
+}
+.logos__grid{ column-count:3; }
+/* ============================================================
+   CATEGORY GROUPS — one per type of work (Logo Design, Website
+   & UI Design, Photoshop Edits, Game Development, etc).
+   .logos__category is just the spacing wrapper around each one.
+   ============================================================ */
+.logos__category{
+  position:relative;
+  z-index:1;
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding-top:clamp(36px,6vw,56px);
+}
+.logos__category:first-of-type{ padding-top:0; }
+
+.logos__label{
+  font-family:var(--display);
+  font-size:clamp(1.1rem,2.6vw,1.5rem);
+  letter-spacing:-.01em;
+  color:var(--fg-dim);
+  margin:0 0 16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+
+/* ------------------------------------------------------------
+   UI/UX PORTRAIT CARD RAIL
+   A horizontally-scrolling row of portrait cards — for app/UI
+   screens, where each shot is its own small card with a title
+   underneath, rather than one big slide with a side panel.
+   ------------------------------------------------------------ */
+.uxrail{ position:relative; }
+.uxrail__track{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  padding:2px 2px 8px;
+  scrollbar-width:none;
+}
+.uxrail__track::-webkit-scrollbar{ display:none; }
+.uxrail__card{
+  flex:0 0 auto;
+  width:clamp(150px,38vw,210px);
+  scroll-snap-align:start;
+}
+.uxrail__frame{
+  width:100%;
+  aspect-ratio:9/16;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:var(--bg-2, #14121C);
+  border:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+.uxrail__frame img{
+  display:block;
+  width:100%;
+  height:auto;   /* full natural height — no cropping, no squashing */
+}
+
+/* small down-arrow hint that only shows when there's more to scroll —
+   toggled by script.js */
+.uxrail__frame{ position:relative; }
+.uxrail__card.has-more::after{
+  content:"↓ scroll";
+  position:absolute;
+  left:50%;
+  bottom:8px;
+  transform:translateX(-50%);
+  padding:3px 9px;
+  border-radius:999px;
+  background:rgba(8,7,11,.7);
+  color:var(--fg-dim);
+  font-size:.7rem;
+  pointer-events:none;
+
+}
+.uxrail__title{
+  margin:8px 2px 0;
+  font-size:.82rem;
+  color:var(--fg-dim);
+}
+.uxrail__card.is-empty img{ display:none; }
+.uxrail__card.is-empty::before{
+  content:"Add screen";
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  aspect-ratio:9/16;
+  border:1px dashed var(--line);
+  color:rgba(255,255,255,.35);
+  font-size:.8rem;
+  text-align:center;
+  padding:0 10px;
+  background:repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 12px, transparent 12px 24px);
+}
+
+.uxrail__arrow{
+  position:absolute;
+  top:calc(50% - 14px); /* nudge up so it sits over the image, not the title */
+  transform:translateY(-50%);
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(8,7,11,.55);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  color:var(--fg);
+  font-size:1.2rem;
+  line-height:1;
+  cursor:pointer;
+}
+.uxrail__arrow:hover{ background:rgba(8,7,11,.8); }
+.uxrail__arrow:disabled{ opacity:0; pointer-events:none; }
+.uxrail__arrow--prev{ left:-6px; }
+.uxrail__arrow--next{ right:-6px; }
+@media (min-width:640px){
+  .uxrail__arrow--prev{ left:-16px; }
+  .uxrail__arrow--next{ right:-16px; }
+}
+
+.logos__sub{
+  margin:-10px 0 16px;
+  font-size:.85rem;
+  color:var(--fg-dim);
+  max-width:52ch;
+}
+/* ------------------------------------------------------------
+   Gallery cards — used for screenshots, edits, game shots etc.
+   Unlike the logo tiles (which sit on a flat colour and use
+   object-fit:contain so the whole logo shows), these crop to
+   fill the frame with object-fit:cover, which is what you want
+   for photos and screenshots.
+   ------------------------------------------------------------ */
+.gallery__grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.gallery__item{
+  margin:0;
+  background:var(--bg-2, #14121C);
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+.gallery__item img{
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  transition:transform .5s ease;
+}
+.gallery__item:hover img{ transform:scale(1.04); }
+.gallery__item figcaption{
+  padding:10px 14px;
+  font-size:.86rem;
+  color:var(--fg-dim);
+  border-top:1px solid var(--line);
+}
+.gallery__item.is-empty img{ display:none; }
+.gallery__item.is-empty{ position:relative; }
+.gallery__item.is-empty::before{
+  content:"Add image";
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  aspect-ratio:4/3;
+  color:rgba(255,255,255,.35);
+  font-size:.85rem;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 12px, transparent 12px 24px);
+}
+/* ============================================================
+   WORK / CASE STUDIES
+   ============================================================ */
+.work{ padding-bottom:clamp(48px,8vw,110px); }
+
+.case{
+  display:grid;
+  grid-template-columns:1fr;
+  margin-bottom:8px;
+}
+.case__brief{
+  background:var(--panel);
+  color:var(--panel-ink);
+  padding:clamp(30px,7vw,76px) var(--pad);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  /* on phones the image reads first, then the writing */
+  order:2;
+}
+.case__hero{
+  background:var(--panel);
+  min-height:240px;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  order:1;
+}
+.case__kicker{
+  font-size:.86rem;
+  font-weight:600;
+  opacity:.72;
+  margin-bottom:22px;
+}
+.case__title{
+  font-family:var(--display);
+  font-size:clamp(2rem,8vw,4rem);
+  line-height:.92;
+  letter-spacing:-.03em;
+  margin:0 0 18px;
+}
+.case__title span{
+  display:block;
+  font-family:var(--body);
+  font-weight:500;
+  font-size:.95rem;
+  letter-spacing:0;
+  opacity:.68;
+  margin-top:10px;
+}
+.case__brief p{ max-width:46ch; font-size:.99rem; }
+.case__list{
+  margin-top:14px;
+  border-top:1px solid currentColor;
+}
+.case__list li{
+  padding:10px 0;
+  border-bottom:1px solid currentColor;
+  font-size:.92rem;
+  font-weight:500;
+}
+
+.case__hero img{ width:100%; height:100%; object-fit:cover; }
+.case__hero.is-empty{
+  background:
+    repeating-linear-gradient(45deg, rgba(0,0,0,.14) 0 14px, transparent 14px 28px),
+    var(--panel);
+}
+.case__hero.is-empty::after{
+  content:"Your project image goes here";
+  display:grid;
+  place-items:center;
+  height:100%;
+  color:var(--panel-ink);
+  opacity:.5;
+  font-size:.9rem;
+  text-align:center;
+  padding:0 16px;
+}
+
+.case__strip{
+  order:3;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  margin-top:8px;
+}
+.case__strip img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.case__strip.is-empty{ display:none; }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact{
+  border-top:1px solid var(--line);
+  padding:clamp(48px,8vw,100px) var(--pad) 24px;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+  max-width:var(--maxw);
+  margin:0 auto;
+}
+.contact__rows{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:30px;
+  font-size:.95rem;
+}
+.contact__rows p{ margin:0 0 4px; color:#CFCBDA; }
+.contact__rows a{ text-decoration:none; }
+.contact__rows a:hover{ text-decoration:underline; }
+.contact__name{
+  font-family:var(--display);
+  font-size:1.2rem;
+  letter-spacing:-.02em;
+  color:var(--fg) !important;
+  margin-bottom:8px !important;
+}
+.contact__social{ display:flex; flex-direction:column; align-items:flex-start; }
+.contact__social a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+}
+.contact__btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  margin-top:14px;
+  padding:0 22px;
+  border-radius:999px;
+  font-weight:600;
+  color:#0A0910;
+  background:linear-gradient(95deg,var(--g1),var(--g2) 55%,var(--g3));
+}
+.contact__btn:hover{ text-decoration:none !important; filter:brightness(1.08); }
+
+.contact__bigwrap{ margin:clamp(40px,7vw,90px) 0 0; }
+.contact__fine{
+  text-align:center;
+  color:var(--fg-dim);
+  font-size:.84rem;
+  margin:18px 0 0;
+}
+
+/* ============================================================
+   REVEAL ON SCROLL (switched on by js/script.js)
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(18px); }
+.reveal.is-in{
+  opacity:1;
+  transform:none;
+  transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
+}
+
+/* ============================================================
+   640px and up — big phones, tablets in portrait
+   ============================================================ */
+@media (min-width:640px){
+  .about__cols{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:38px; }
+  .logos__grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .case__strip{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .case__hero{ aspect-ratio:16/9; }
+  .hero__meta{
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:30px;
+  }
+  .hero__skills{ text-align:right; }
+  .hero__portrait{ height:70%; }
+  .contact__rows{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+/* ============================================================
+   900px and up — tablets in landscape, laptops
+   ============================================================ */
+@media (min-width:900px){
+  :root{ --nav-h:64px; }
+
+  /* the hamburger disappears and the links sit inline */
+  .nav__toggle{ display:none; }
+  .nav__menu{
+    position:static;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    max-height:none;
+    visibility:visible;
+    opacity:1;
+    overflow:visible;
+    padding:0;
+    background:none;
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    border-bottom:0;
+    transition:none;
+  }
+  .nav__menu a{
+    font-size:.92rem;
+    padding:0;
+    min-height:0;
+    border-bottom:0;
+    color:var(--fg-dim);
+    transition:color .2s ease;
+  }
+  .nav__menu a:hover{ color:var(--fg); }
+  .nav__cta{
+    margin-top:0;
+    padding:9px 18px;
+    min-height:0;
+    color:#0A0910 !important;
+  }
+
+  .hero__portrait{ height:80%; }
+  .hero__word{ top:46%; }
+  .hero__scrim{ height:34%; }
+
+  .about__top{
+    grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
+    gap:clamp(36px,6vw,90px);
+    align-items:start;
+  }
+  .about__cols{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+
+  .case{ grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); }
+  .case__brief{
+    order:0;
+    padding-left:clamp(28px,4vw,64px);
+    padding-right:clamp(28px,4vw,64px);
+  }
+  .case__hero{ order:0; aspect-ratio:auto; min-height:360px; }
+  .case__strip{ grid-column:1 / -1; }
+
+  .logos__grid,.case__strip{ gap:10px; }
+  .contact__rows{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(26px,4vw,60px); }
+  .contact__social a{ min-height:0; padding:3px 0; }
+}
+
+/* ============================================================
+   1200px and up — desktop
+   ============================================================ */
+@media (min-width:1200px){
+  body{ font-size:17px; }
+  .hero__skills{ font-size:.95rem; }
+}
+
+/* ============================================================
+   Short landscape screens (a phone turned sideways).
+   Without this the hero text gets squashed against the nav.
+   ============================================================ */
+@media (max-height:520px) and (orientation:landscape){
+  .hero{ min-height:auto; padding-top:calc(var(--nav-h) + 28px); padding-bottom:36px; }
+  .hero__portrait{ height:74%; }
+  .hero__scroll{ display:none; }
+}
+
+/* ---------- motion preference ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation:none !important; transition:none !important; }
+  .reveal{ opacity:1; transform:none; }
+}
+/* ------------------------------------------------------------
+   WEBSITE / UI PROJECT SLIDER
+   One of these per web project: a swipeable screenshot slider
+   (as many slides as you want) with a description panel next
+   to it. Stacked on phone (slider on top, info below), side by
+   side from 900px up. Mobile-first, same pattern as the rest
+   of this file.
+   ------------------------------------------------------------ */
+.webproj{
+  display:grid;
+  gap:0;
+  margin-bottom:14px;
+  border:1px solid var(--line);
+  background:var(--bg-2, #14121C);
+}
+
+/* ---- the slider itself ---- */
+.webproj__viewer{
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+}
+.webproj__track{
+  display:flex;
+  height:100%;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.webproj__track::-webkit-scrollbar{ display:none; }
+.webproj__slide{
+  flex:0 0 100%;
+  height:100%;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+.webproj__slide img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.webproj__slide.is-empty{
+  position:relative;
+  background:repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 12px, transparent 12px 24px);
+}
+.webproj__slide.is-empty img{ display:none; }
+.webproj__slide.is-empty::before{
+  content:"Add screenshot";
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  color:rgba(255,255,255,.35);
+  font-size:.85rem;
+  text-align:center;
+  padding:0 16px;
+}
+
+.webproj__arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(8,7,11,.55);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  color:var(--fg);
+  font-size:1.3rem;
+  line-height:1;
+  cursor:pointer;
+  transition:background .2s ease, opacity .2s ease;
+}
+.webproj__arrow:hover{ background:rgba(8,7,11,.8); }
+.webproj__arrow:disabled{ opacity:.3; cursor:default; }
+.webproj__arrow--prev{ left:10px; }
+.webproj__arrow--next{ right:10px; }
+
+.webproj__counter{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(8,7,11,.55);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  color:var(--fg);
+  font-size:.78rem;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---- the description panel ---- */
+.webproj__info{
+  padding:20px var(--pad) 24px;
+}
+.webproj__title{
+  font-family:var(--display);
+  font-size:clamp(1.05rem,2.4vw,1.3rem);
+  letter-spacing:-.01em;
+  margin:0 0 6px;
+}
+.webproj__kicker{
+  color:var(--fg-dim);
+  font-size:.85rem;
+  margin:0 0 12px;
+}
+.webproj__info > p:not(.webproj__kicker){
+  max-width:60ch;
+  font-size:.95rem;
+  color:#CFCBDA;
+}
+.webproj__tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:14px 0 0;
+  padding:0;
+  list-style:none;
+}
+.webproj__tags li{
+  padding:5px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:.78rem;
+  color:var(--fg-dim);
+}
+.webproj__link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:16px;
+  font-size:.9rem;
+  font-weight:600;
+  color:var(--fg);
+  text-decoration:none;
+  border-bottom:1px solid var(--line);
+  padding-bottom:2px;
+}
+.webproj__link:hover{ border-color:var(--fg); }
+
+@media (min-width:900px){
+  .webproj{ grid-template-columns:1.3fr 1fr; }
+  .webproj__viewer{ aspect-ratio:auto; height:100%; }
+  .webproj__info{ padding:26px 28px; align-self:center; }
+}

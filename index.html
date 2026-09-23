@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  PORTFOLIO — graphic design portfolio site
+  ============================================================
+  HOW TO USE THIS FILE IN VS CODE
+
+  1. Open this whole folder in VS Code (File > Open Folder).
+  2. Install the "Live Server" extension, then right-click
+     index.html > "Open with Live Server" to preview it.
+  3. Search this file for the word  EDIT:  — every single thing
+     you need to change is marked with that tag.
+  4. Drop your images into the /images folder using the exact
+     file names listed in images/README.txt.
+
+  TESTING ON PHONE / TABLET
+  In VS Code press F12 in the browser (or Ctrl+Shift+M in
+  Chrome) to open the device toolbar, then check these four:
+     iPhone SE  375px   — smallest phone you need to survive
+     iPhone 15  393px   — most common phone
+     iPad Mini  768px   — tablet portrait
+     iPad Pro   1024px  — tablet landscape
+  If it reads well at 375 and 1024, everything between is fine.
+  ============================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- viewport-fit=cover lets the page use the full screen on
+     iPhones with a notch; the CSS keeps text out of the notch. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08070B">
+
+<!-- EDIT: your name + what you do. This shows in the browser tab and on Google. -->
+<title>Barnabas James — Graphic Designer</title>
+<meta name="description" content="Portfolio of Barnabas James, a multimedia computing student and graphic designer working in branding, packaging and visual identity.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- The gradient used by the big "LOGOFOLIO" and "THANKYOU" headlines.
+     EDIT: change these three stop-colors to re-tint both headlines. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gradText" x1="0" y1="0" x2="1" y2="0.35">
+      <stop offset="0%"   stop-color="#FF2D95"/>
+      <stop offset="50%"  stop-color="#7B2FF7"/>
+      <stop offset="100%" stop-color="#00E5FF"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ========================= NAV ========================= -->
+<header class="nav" id="nav">
+  <!-- EDIT: your initials or short name -->
+  <a class="nav__mark" href="#top">BJ</a>
+
+  <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+    <span class="nav__bars" aria-hidden="true"><i></i><i></i></span>
+    <span class="nav__toggle-text">Menu</span>
+  </button>
+
+  <nav class="nav__menu" id="navMenu" aria-label="Main">
+    <a href="#about">About</a>
+    <a href="#logos">Skills &amp; Strengths</a>
+    <a href="#work">Project</a>
+    <a href="#contact">Contact</a>
+    <!-- EDIT: put your CV pdf in this folder and rename it here -->
+    <a class="nav__cta" href="resume.pdf" download>Download CV</a>
+  </nav>
+</header>
+
+<!-- ========================= HERO ========================= -->
+<section class="hero" id="top">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <!--
+    The headline is SVG rather than normal text on purpose.
+    textLength forces the word to be exactly as wide as the box,
+    so it fits perfectly on a 375px phone and a 2560px monitor
+    without you ever having to touch the font size.
+  -->
+  <div class="hero__word">
+    <svg viewBox="0 0 1000 220" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Portfolio">
+      <text x="500" y="178" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">PORTFOLIO</text>
+    </svg>
+  </div>
+
+  <!--
+    YOUR PHOTO. This sits IN FRONT of the word above, so the letters
+    run behind your head exactly like the reference.
+
+    IMPORTANT: this must be a cut-out PNG with a transparent
+    background. A normal rectangular photo will look like a box
+    pasted over the letters. See images/README.txt for how to cut
+    one out in 30 seconds.
+  -->
+  <div class="hero__portrait">
+    <img src="images/portrait1.png" alt="Portrait of Your Name" onerror="this.closest('.hero__portrait').classList.add('is-empty'); this.remove()">
+  </div>
+
+  <!-- soft dark fade at the bottom so your name stays readable
+       even if the photo is bright behind it -->
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__meta">
+    <div class="hero__id">
+      <!-- EDIT: your name, role, email -->
+      <p class="hero__name">Barnabas James</p>
+      <p>Multimedia Computing Student</p>
+      <p>Graphic Designer &amp; Web Developer</p>
+      <p><a href="mailto:you@email.com">barnabasjames0402@email.com</a></p>
+    </div>
+
+    <div class="hero__skills">
+      <!-- EDIT: your actual strengths -->
+      <p>Animation, typography and layout design</p>
+      <p>Adobe Photoshop, Illustrator, InDesign</p>
+      <p>Turning Ideas into Digital Experiences</p>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#about">Scroll</a>
+</section>
+
+<!-- ========================= ABOUT ========================= -->
+<section class="about" id="about">
+  <div class="about__top">
+    <div class="about__intro">
+      <h2 class="h-section">About me</h2>
+      <!-- EDIT: rewrite this in your own voice. Keep it short and honest.
+           Employers read this bit first, so say what you make and what
+           you are looking for. -->
+      <p>I’m a multimedia computing student with a strong interest in graphic design and web
+         development. I enjoy turning simple ideas into clean visuals and digital experiences
+         that feel purposeful, engaging, and easy to use.</p>
+      <p>Right now, I’m looking for an internship where I can work on real projects, learn
+         through feedback from experienced people, and continue building my skills across
+         design and the web.</p>
+    </div>
+
+    <ul class="about__contact">
+      <!-- EDIT: your contact details + links -->
+      <li><span>Email</span><a href="mailto:you@email.com">barnabasjames0402@email.com</a></li>
+      <li><span>Phone</span><a href="tel:+60123456789">+60 11 3173 2478</a></li>
+      <li><span>Based in</span>Kajang, Selangor</li>
+      <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/barnabas-james-96bab1300" target="_blank" rel="noopener">linkedin.com/in/Barnabas James</a></li>
+    </ul>
+  </div>
+
+  <div class="about__cols">
+    <div class="col">
+      <h3>Experience</h3>
+      <!-- EDIT: freelance, club work, committee design work — it all counts.
+           If you have none yet, rename this to "Selected briefs" and list
+           your best coursework projects. -->
+      <div class="col__item">
+        <p class="col__title">Graphic Design Projects</p>
+        <p>Posters, graphic edits, e-magazine layouts, 
+          and digital visual content created through academic and personal projects</p>
+      </div>
+      <div class="col__item">
+        <p class="col__title">Web Development Projects</p>
+        <p>VISIT2MALAYSIA and M4 Gallery, including responsive layouts,
+           interactive elements, HTML, CSS, JavaScript, and basic website optimisation</p>
+      </div>
+      <div class="col__item">
+        <p class="col__title">UI/UX Design Projects</p>
+        <p>TorquePit vehicle service appointment app, including user research, wireframes,
+           high-fidelity screens, and interactive prototyping in Figma</p>
+      </div>
+      <div class="col__item">
+        <p class="col__title">Game Development Projects</p>
+        <p>Unreal Engine 5 projects involving horror game environments, level editing, lighting, sound, effects, 
+          and interactive gameplay mechanics, along with creating simple game layouts in Figma 
+          and developing simple games using code.</p>
+      </div>
+       <div class="col__item">
+        <p class="col__title">Multimedia Projects</p>
+        <p>Groovehive music app, e-magazine, IG clone,
+           and other projects combining visual design, interaction, and digital media</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>Software</h3>
+      <!-- EDIT: only list what you can genuinely use. The bar is how
+           confident you'd feel being asked about it in an interview. -->
+      <ul class="skills">
+        <li><span>Adobe Photoshop</span><i style="--level:90%"></i></li>
+        <li><span>Adobe Illustrator</span><i style="--level:85%"></i></li>
+        <li><span>Adobe InDesign</span><i style="--level:70%"></i></li>
+        <li><span>Adobe After Effects</span><i style="--level:55%"></i></li>
+        <li><span>Figma</span><i style="--level:75%"></i></li>
+        <li><span>Canva</span><i style="--level:90%"></i></li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3>Education</h3>
+      <!-- EDIT: your course, university, years -->
+      <div class="col__item">
+        <p class="col__title">BSc Multimedia Computing</p>
+        <p>YPC International College</p>
+        <p class="col__muted">2023 — 2027</p>
+      </div>
+      <div class="col__item">
+        <p class="col__title">Foundation in Business and IT</p>
+        <p>YPC International College</p>
+        <p class="col__muted">2022 — 2023</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= LOGOFOLIO ========================= -->
+<section class="logos" id="logos">
+   <div class="logos__glow" aria-hidden="true"></div>
+  <div class="logos__head">
+    <svg class="big-type" viewBox="0 0 1000 160" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Logofolio">
+      <text x="500" y="130" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">SKILLS &amp; STRENGTHS</text>
+    </svg>
+  </div>
+  <p class="logos__note">A selection of marks built for coursework and projects.</p>
+
+  <!-- ============================================================
+       CATEGORY 1 — Logo Design
+       Same as before: change --bg to suit each logo, replace the
+       <img> src with your exported PNG. Delete a tile if you have
+       fewer than 9 logos.
+       ============================================================ -->
+  <div class="logos__category">
+    <h3 class="logos__label">Graphic Designs</h3>
+    <div class="logos__grid">
+      <figure class="logo" style="--bg:#0E2A47"><img src="images/fairy tale photoshop edit.png" alt="graphic1" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 01'}))"></figure>
+      <figure class="logo" style="--bg:#123D2E"><img src="images/Sneaker PHSP Edit.png" alt="Logo 2" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 02'}))"></figure>
+      <figure class="logo" style="--bg:#16C47F"><img src="images/Delicious Burger Menu Template - Made with PosterMyWall.jpg" alt="Logo 3" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 03'}))"></figure>
+      <figure class="logo" style="--bg:#F5197E"><img src="images/flower.png" alt="Logo 4" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 04'}))"></figure>
+      <figure class="logo" style="--bg:#D1001C"><img src="images/typography2.png" alt="Logo 5" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 05'}))"></figure>
+      <figure class="logo" style="--bg:#0D1B4C"><img src="images/creative1.png" alt="Logo 6" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 06'}))"></figure>
+      <figure class="logo" style="--bg:#121212"><img src="images/typography1.png" alt="Logo 7" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 07'}))"></figure>
+      <figure class="logo" style="--bg:#00305b"><img src="images/CA2_BARNABAS, LUKESSH, ALFIN & SRI.jpg" alt="Logo 8" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 08'}))"></figure>
+      <figure class="logo" style="--bg:#E5E4E2"><img src="images/typography3(1).png" alt="Logo 9" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 09'}))"></figure>
+      <figure class="logo" style="--bg:#16C47F"><img src="images/logo-3.png" alt="Logo 3" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo__ph',textContent:'Logo 03'}))"></figure>
+    </div>
+  </div>
+
+ <!-- ============================================================
+     CATEGORY 2 — Website & UI Design
+     Each project below is a SLIDER: as many screenshots as you
+     want, swipeable on phone, arrows + counter on desktop, with
+     a description panel next to it (beside it on tablet/desktop,
+     below it on phone).
+
+     TO ADD SCREENSHOTS: drop files in /images and add one
+     <div class="webproj__slide"> per image inside the matching
+     <div class="webproj__track"> — just copy one whole slide
+     block and change the src. No limit on how many.
+
+     TO ADD ANOTHER PROJECT: copy one whole <div class="webproj">
+     block (from "webproj" down to its closing </div>) and paste
+     it after this one, then change the images, title, tags and
+     description.
+
+     EDIT markers below show exactly what to change for each
+     project. A slide with a missing image just shows a
+     "Add screenshot" placeholder — nothing breaks.
+     ============================================================ -->
+<div class="logos__category">
+  <h3 class="logos__label">Website Design</h3>
+
+  <!-- ---------- WEB PROJECT 1 ---------- -->
+  <div class="webproj">
+    <div class="webproj__viewer">
+      <div class="webproj__track">
+        <!-- EDIT: one <div class="webproj__slide"> per screenshot.
+             Copy this block to add more — there's no cap. -->
+        <div class="webproj__slide">
+          <img src="images/m4(1).png" alt="VISIT2MALAYSIA screenshot 1"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+        <div class="webproj__slide">
+          <img src="images/m4(2).png" alt="VISIT2MALAYSIA screenshot 2"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+        <div class="webproj__slide">
+          <img src="images/m4(3).png" alt="VISIT2MALAYSIA screenshot 3"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+        <div class="webproj__slide">
+          <img src="images/m4(4).png" alt="VISIT2MALAYSIA screenshot 4"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+      </div>
+
+      <button type="button" class="webproj__arrow webproj__arrow--prev" aria-label="Previous screenshot">‹</button>
+      <button type="button" class="webproj__arrow webproj__arrow--next" aria-label="Next screenshot">›</button>
+      <div class="webproj__counter"><span class="is-current">1</span> / <span class="is-total">4</span></div>
+    </div>
+
+    <div class="webproj__info">
+      <!-- EDIT: project name -->
+      <h4 class="webproj__title">M4 Gallery</h4>
+      <!-- EDIT: one line on what it is -->
+      <p class="webproj__kicker">Motorcycle Gallery website — HTML, CSS, JavaScript</p>
+      <!-- EDIT: 2–4 sentences. What the site does, what you built,
+           any interaction/responsive work worth calling out. -->
+      <p>M4 Gallery is a modern motorcycle gallery website showcasing premium motorcycles 
+        through detailed visuals, specifications, and interactive browsing features. 
+        The project combines web development, visual design, and SEO techniques to create an engaging experience 
+        for motorcycle enthusiasts.
+</p>
+      <ul class="webproj__tags">
+        <!-- EDIT: swap these for the actual stack / skills used -->
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Responsive layout</li>
+      </ul>
+      <!-- EDIT: link to the live site or repo. Delete this <a> if
+           you don't have a link to give yet. -->
+      <a class="webproj__link" href="https://barnabasjames.github.io/M4_Gallery/" target="_blank" rel="noopener">View live site ↗</a>
+    </div>
+  </div>
+
+  <!-- ---------- WEB PROJECT 2 ---------- -->
+  <div class="webproj">
+    <div class="webproj__viewer">
+      <div class="webproj__track">
+        <div class="webproj__slide">
+          <img src="images/g1.png" alt="GrooveHive screenshot 1"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+        <div class="webproj__slide">
+          <img src="images/g2.png" alt="GrooveHive screenshot 2"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+        <div class="webproj__slide">
+          <img src="images/g3.png" alt="GrooveHive screenshot 3"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+         <div class="webproj__slide">
+          <img src="images/g4.png" alt="GrooveHive screenshot 4"
+               onerror="this.closest('.webproj__slide').classList.add('is-empty')">
+        </div>
+      </div>
+
+      <button type="button" class="webproj__arrow webproj__arrow--prev" aria-label="Previous screenshot">‹</button>
+      <button type="button" class="webproj__arrow webproj__arrow--next" aria-label="Next screenshot">›</button>
+      <div class="webproj__counter"><span class="is-current">1</span> / <span class="is-total">3</span></div>
+    </div>
+
+    <div class="webproj__info">
+      <h4 class="webproj__title">GrooveHive</h4>
+      <p class="webproj__kicker">Music Website — Php, JSON, JavaScript</p>
+      <p>Music Web is an interactive music website designed and developed using Php, JSON, JavaScript, and HTML. 
+        The project focuses on responsive design, user experience, 
+        and creating a smooth and engaging music browsing experience.</p>
+      <ul class="webproj__tags">
+        <li>Php</li>
+        <li>JSON</li>
+        <li>JavaScript</li>
+        <li>Xampp</li>
+      </ul>
+      
+    </div>
+  </div>
+  <!-- ============================================================
+     CATEGORY 2b — UI/UX Design (portrait screens)
+     Sits right under Website & UI Design since it's the same
+     kind of work. A horizontally-scrolling row of PORTRAIT
+     cards — good for app/UI screens (Figma exports etc.) rather
+     than the widescreen slider above.
+
+     TO ADD A SCREEN: copy one whole <div class="uxrail__card">
+     block and change the image + the small title underneath.
+     No limit on how many — the row just keeps scrolling.
+     ============================================================ -->
+<div class="logos__category">
+  <h3 class="logos__label">UI Design - INGREDIENT DASH GAME ( Mobile App)</h3>
+  <div class="uxrail">
+    <div class="uxrail__track">
+      <!-- EDIT: one card per screen. Copy this block to add more. -->
+     <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI1.png" alt="Ingredient Dash Game Home Screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Home Screen</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI2.png" alt="Ingredient Dash Game choose character screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Choose Character</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI3.png" alt="Ingredient Dash Game LEVEL "
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Game Level</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI4.png" alt="Ingredient Dash Game game layout"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Game Layout</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI5.png" alt="Ingredient Dash Game completion screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Complete </p>
+</div>
+       <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/UI6.png" alt="Ingredient Dash Game fail screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Fail</p>
+</div>
+      
+    </div>
+
+    <button type="button" class="uxrail__arrow uxrail__arrow--prev" aria-label="Scroll left">‹</button>
+    <button type="button" class="uxrail__arrow uxrail__arrow--next" aria-label="Scroll right">›</button>
+  </div>
+</div>
+
+</div>
+
+<div class="logos__category">
+  <h3 class="logos__label">UX Design - TORQUEPIT (Mobile App)</h3>
+  <div class="uxrail">
+    <div class="uxrail__track">
+      <!-- EDIT: one card per screen. Copy this block to add more. -->
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 1 (1).png" alt="TorquePit Home Screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Home Screen</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 2 (Create Account) (2).png" alt="TorquePit Create Account Page"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Create Account</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 7 (1).png" alt="TorquePit Main Screen"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Main Page</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 8 (1).png" alt="TorquePit Booking Flow"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Booking Flow</p>
+</div>
+      <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 10 (1).png" alt="TorquePit Bookings"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Bookings</p>
+</div>
+       <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 16 (1).png" alt="TorquePit Payment"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Payment</p>
+</div>
+       <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 14.png" alt="TorquePit Confirtmation"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Confirmation</p>
+</div>
+        <div class="uxrail__card">
+  <div class="uxrail__frame">
+    <img src="images/Frame 22 (1).png" alt="TorquePit Profile"
+         onerror="this.closest('.uxrail__card').classList.add('is-empty')">
+  </div>
+  <p class="uxrail__title">Profile</p>
+</div>
+    </div>
+
+    <a class="webproj__link" href="https://www.figma.com/proto/D9CHGN83itJW4ublECCJj1/TorquePit--Prototype-?node-id=246-2041&t=Vydt9NGGGYsl35HM-1&scaling=scale-down&content-scaling=fixed&page-id=246%3A2040&starting-point-node-id=246%3A2041" target="_blank" rel="noopener">View live site ↗</a>
+
+    <button type="button" class="uxrail__arrow uxrail__arrow--prev" aria-label="Scroll left">‹</button>
+    <button type="button" class="uxrail__arrow uxrail__arrow--next" aria-label="Scroll right">›</button>
+  </div>
+</div>
+
+
+  
+
+<!-- ========================= WORK ========================= -->
+<section class="work" id="work">
+<div class="logos__category">
+  <h3 class="logos__label">Game Development</h3>
+  <!-- ---------- CASE STUDY 1 ---------- -->
+  <!-- EDIT: --panel is the brand colour of this project. Change it and the
+       whole case study re-colours itself. --panel-ink is the text colour
+       that sits on top of it (dark text on light panel, light on dark). -->
+  <article class="case" style="--panel:#F7E04B; --panel-ink:#111006">
+    
+    <div class="case__brief">
+      <p class="case__kicker">Horror Game</p>
+      <h3 class="case__title">POST CAPTURE<span>NIMBUS GAME COMPANY</span></h3>
+      <!-- EDIT: describe the project — what the brand is, what problem you
+           solved, what you actually made. Employers care about the thinking,
+           not just the pretty picture. -->
+      <p>Postcapture is a psychological horror game developed as part 
+        of my Final Year Project in collaboration with a game development company. 
+        Players take on the role of an investigator exploring mysterious and unsettling environments, 
+        where the main objective is to observe their surroundings, identify unusual changes or anomalies, 
+        and capture evidence using the game's camera system. The game focuses on observation, exploration, 
+        and tension, where even small changes in the environment can become important clues.</p>
+      <p>As part of the development team, I contributed to the development 
+        and editing of different game areas using Unreal Engine 5. 
+        My work included level editing, environment setup, pathway design, lighting, 
+        sound, visual effects, and gameplay elements. I also helped test and refine 
+        different areas of the game, making adjustments to improve the atmosphere, 
+        gameplay flow, and overall player experience.</p>
+      <ul class="case__list">
+        <li><b>Environment Design</b></li>
+        <li><b>Level Editing</b></li>
+        <li><b>Visual Effects</b></li> 
+        <li><b>Lighting and Sound Design</b></li>
+        <li><b>Gameplay Elements</b></li>
+      </ul>
+    </div>
+    <div class="case__hero">
+      <!-- EDIT: main image of the project -->
+      <img src="images/n1.png" alt="Kahvia coffee packaging" onerror="this.closest('.case__hero').classList.add('is-empty')">
+    </div>
+    
+    
+    
+  </article>
+  
+
+  <!-- ---------- CASE STUDY 2 ---------- -->
+  <article class="case" style="--panel:#16C47F; --panel-ink:#04160E">
+    <div class="case__brief">
+      <p class="case__kicker">Branding + Packaging</p>
+      <h3 class="case__title">Fruicity<span>Juice bar</span></h3>
+      <p>Fruicity is a cold-pressed juice bar aimed at people who want something
+         fresh without a wellness lecture. The bottles use a bold colour block
+         per flavour so the range is readable from across the room.</p>
+      <p>I built the logo, the bottle label system, the in-store menu boards and
+         a set of social media templates the owner can reuse.</p>
+      <ul class="case__list">
+        <li>Logo and label system</li>
+        <li>Three-flavour packaging range</li>
+        <li>Social media templates</li>
+      </ul>
+    </div>
+    <div class="case__hero">
+      <img src="images/project-2-main.jpg" alt="Fruicity juice packaging" onerror="this.closest('.case__hero').classList.add('is-empty')">
+    </div>
+    <div class="case__strip">
+      <img src="images/project-2-a.jpg" alt="" onerror="this.closest('.case__strip').classList.add('is-empty')">
+      <img src="images/project-2-b.jpg" alt="" onerror="this.remove()">
+      <img src="images/project-2-c.jpg" alt="" onerror="this.remove()">
+    </div>
+  </article>
+
+  <!-- EDIT: to add a third project, copy one whole <article class="case">
+       block and paste it here, then change the colours, text and images. -->
+
+</section>
+
+<!-- ============================================================
+       CATEGORY 3 — Photoshop / Photo Editing
+       ============================================================ -->
+  <div class="logos__category">
+    <h3 class="logos__label">Photoshop Edits</h3>
+    <div class="gallery__grid">
+      <figure class="gallery__item">
+        <img src="images/edit-1.jpg" alt="" onerror="this.closest('.gallery__item').classList.add('is-empty')">
+        <figcaption>Edit name</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="images/edit-2.jpg" alt="" onerror="this.closest('.gallery__item').classList.add('is-empty')">
+        <figcaption>Edit name</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <img src="images/edit-3.jpg" alt="" onerror="this.closest('.gallery__item').classList.add('is-empty')">
+        <figcaption>Edit name</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  
+</section>
+
+<!-- ========================= CONTACT ========================= -->
+<footer class="contact" id="contact">
+  <div class="contact__rows">
+    <div>
+      <!-- EDIT -->
+      <p class="contact__name">Your Name</p>
+      <p>Graphic Designer &amp; Visual Artist</p>
+      <p><a href="mailto:you@email.com">you@email.com</a></p>
+      <p><a href="tel:+60123456789">+60 12 345 6789</a></p>
+    </div>
+    <div class="contact__social">
+      <!-- EDIT: paste your real profile links -->
+      <a href="#" target="_blank" rel="noopener">Behance</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" target="_blank" rel="noopener">Dribbble</a>
+    </div>
+    <div>
+      <p>Open to graphic design internships</p>
+      <p>Available from <!-- EDIT -->June 2027</p>
+      <a class="contact__btn" href="mailto:you@email.com">Start a conversation</a>
+    </div>
+  </div>
+
+  <div class="contact__bigwrap">
+    <svg class="big-type" viewBox="0 0 1000 170" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Thank you">
+      <text x="500" y="138" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs">THANKYOU</text>
+    </svg>
+  </div>
+
+  <p class="contact__fine">
+    <!-- EDIT: update the year and your name -->
+    Designed and built by Your Name, 2026.
+  </p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -430,6 +430,32 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
 /* ============================================================
    LOGOFOLIO
    ============================================================ */
+   .logos__head {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.big-type {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+} 
+
+@media (max-width: 600px) {
+  .logos__head {
+    padding: 0 15px;
+  }
+
+  .big-type {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .logos{
   max-width:var(--maxw);
   margin:0 auto;

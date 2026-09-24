@@ -1070,3 +1070,19 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
   .webproj__viewer{ aspect-ratio:auto; height:100%; }
   .webproj__info{ padding:26px 28px; align-self:center; }
 }
+/* ------------------------------------------------------------
+   COLOUR PANEL BEHIND A CATEGORY — same trick as the Fruicity
+   case study: set --panel and --panel-ink on the wrapper via
+   an inline style, and this bleeds it edge-to-edge.
+   ------------------------------------------------------------ */
+.logos__category.is-panel{
+  background:var(--panel);
+  padding:32px var(--pad) 40px;
+  margin-left:calc(-1 * var(--pad));
+  margin-right:calc(-1 * var(--pad));
+  width:calc(100% + (2 * var(--pad)));
+}
+.logos__category.is-panel .logos__label{
+  color:var(--panel-ink);
+  border-bottom-color:rgba(4,22,14,.25);
+}

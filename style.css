@@ -1070,19 +1070,63 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
   .webproj__viewer{ aspect-ratio:auto; height:100%; }
   .webproj__info{ padding:26px 28px; align-self:center; }
 }
-/* ------------------------------------------------------------
-   COLOUR PANEL BEHIND A CATEGORY — same trick as the Fruicity
-   case study: set --panel and --panel-ink on the wrapper via
-   an inline style, and this bleeds it edge-to-edge.
-   ------------------------------------------------------------ */
-.logos__category.is-panel{
-  background:var(--panel);
-  padding:32px var(--pad) 40px;
-  margin-left:calc(-1 * var(--pad));
-  margin-right:calc(-1 * var(--pad));
-  width:calc(100% + (2 * var(--pad)));
+/* =========================================================
+   WEBSITE DESIGN GREEN PANEL
+   ========================================================= */
+
+.logos__category.is-panel {
+  background: var(--panel);
+  color: var(--panel-ink);
+
+  /* Space inside the green panel */
+  padding: 32px var(--pad) 40px;
+
+  /* Separate it from Graphic Design above
+     and UI/UX below */
+  margin-top: 32px;
+  margin-bottom: 40px;
+
+  /* Make the green background extend nicely
+     to the left and right edges */
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+
+  /* Prevent sizing problems */
+  box-sizing: border-box;
 }
-.logos__category.is-panel .logos__label{
-  color:var(--panel-ink);
-  border-bottom-color:rgba(4,22,14,.25);
+
+
+/* Website Design heading */
+.logos__category.is-panel .logos__label {
+  color: var(--panel-ink);
+  border-bottom-color: rgba(4, 22, 14, 0.25);
+}
+
+
+/* Keep Website Design images inside the panel */
+.logos__category.is-panel img {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .logos__category.is-panel {
+    padding: 28px 20px 32px;
+
+    margin-left: -20px;
+    margin-right: -20px;
+
+    width: calc(100% + 40px);
+
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
+
 }

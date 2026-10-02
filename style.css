@@ -968,10 +968,11 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
 .webproj__track{
   display:flex;
   height:100%;
-  overflow-x:auto;
+  overflow-x:hidden;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
+
 }
 .webproj__track::-webkit-scrollbar{ display:none; }
 .webproj__slide{

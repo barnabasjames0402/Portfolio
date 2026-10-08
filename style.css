@@ -1878,64 +1878,106 @@ table{
 }
 
 /* ============================================================
-   FULL DESKTOP WIDTH
+   DESKTOP CONTENT WIDTH + SPACING
    ------------------------------------------------------------
-   Keeps the portfolio content wide on desktop screens.
-
-   Mobile and tablet layouts stay unchanged.
+   Keeps the portfolio content visually balanced on large
+   screens without stretching everything edge-to-edge.
    ============================================================ */
 
-@media (min-width:1200px){
+@media (min-width:900px){
 
-  /* Remove the 1440px desktop limitation */
-  :root{
-    --maxw:100%;
-  }
-
-  /* Main sections */
+  /* Main content width */
   .about,
+  .work,
   .logos,
   .contact{
-    width:100%;
-    max-width:none;
-    margin-left:0;
-    margin-right:0;
+    width:calc(100% - 80px);
+    max-width:1180px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
-  /* Section content */
-  .about__top,
+
+  /* ----------------------------------------------------------
+     ABOUT ME
+     ---------------------------------------------------------- */
+
+  .about{
+    padding-left:0;
+    padding-right:0;
+
+    padding-top:90px;
+    padding-bottom:100px;
+  }
+
+  .about__top{
+    max-width:1100px;
+    margin:0 auto;
+  }
+
   .about__cols{
-    width:100%;
-    max-width:none;
+    max-width:1100px;
+    margin:50px auto 0;
   }
 
-  /* Skills / project categories */
+
+  /* ----------------------------------------------------------
+     SKILLS / STRENGTH
+     ---------------------------------------------------------- */
+
+  .logos{
+    padding-left:0;
+    padding-right:0;
+
+    padding-top:90px;
+    padding-bottom:100px;
+  }
+
   .logos__category{
-    width:100%;
-    max-width:none;
+    max-width:1100px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
-  .logos__grid{
-    width:100%;
-    max-width:none;
-  }
 
-  /* Website projects */
-  .webproj{
-    width:100%;
-    max-width:none;
-  }
+  /* ----------------------------------------------------------
+     PROJECT CONTENT
+     ---------------------------------------------------------- */
 
-  /* Case studies */
   .case{
-    width:100%;
-    max-width:none;
+    max-width:1100px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
-  /* Contact */
+  .webproj{
+    max-width:1100px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+
+  /* ----------------------------------------------------------
+     CONTACT
+     ---------------------------------------------------------- */
+
+  .contact{
+    padding-left:0;
+    padding-right:0;
+
+    padding-top:90px;
+  }
+
   .contact__rows{
-    width:100%;
-    max-width:none;
+    max-width:1100px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .contact__bigwrap{
+    max-width:1180px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
 }

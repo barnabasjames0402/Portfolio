@@ -181,3 +181,55 @@
 
   targets.forEach(function (el) { io.observe(el); });
 })();
+
+/* ============================================================
+   VISIT MALAYSIA - ADAPTIVE IMAGE HEIGHT
+   Automatically adjusts slider height to the current image
+   ============================================================ */
+
+document.querySelectorAll('.webproj.visitmalaysia').forEach(function(project){
+
+  const viewer = project.querySelector('.webproj__viewer');
+  const track = project.querySelector('.webproj__track');
+  const slides = project.querySelectorAll('.webproj__slide');
+  const images = project.querySelectorAll('.webproj__slide img');
+
+  function updateHeight(){
+
+    const viewerWidth = viewer.clientWidth;
+
+    if (!viewerWidth) return;
+
+    const currentScroll = track.scrollLeft;
+    const slideWidth = viewerWidth;
+
+    let currentIndex = Math.round(currentScroll / slideWidth);
+
+    currentIndex = Math.max(
+      0,
+      Math.min(currentIndex, images.length - 1)
+    );
+
+    const image = images[currentIndex];
+
+    if (!image || !image.naturalWidth || !image.naturalHeight) return;
+
+    const imageRatio = image.naturalWidth / image.naturalHeight;
+
+    const newHeight = viewerWidth / imageRatio;
+
+    viewer.style.height = newHeight + 'px';
+  }
+
+  images.forEach(function(image){
+    image.addEventListener('load', updateHeight);
+  });
+
+  track.addEventListener('scroll', function(){
+    window.requestAnimationFrame(updateHeight);
+  });
+
+  window.addEventListener('resize', updateHeight);
+
+  setTimeout(updateHeight, 100);
+});

@@ -1105,6 +1105,36 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
   background: #ffffff;
 }
 
+/* ============================================================
+   VISIT MALAYSIA - ADAPTIVE IMAGE SLIDER
+   Keeps portrait and landscape screenshots uncropped
+   ============================================================ */
+
+.webproj.visitmalaysia .webproj__viewer{
+  aspect-ratio:auto;
+  height:auto;
+  transition:height .25s ease;
+}
+
+.webproj.visitmalaysia .webproj__track{
+  height:auto;
+  align-items:flex-start;
+}
+
+.webproj.visitmalaysia .webproj__slide{
+  height:auto;
+  flex:0 0 100%;
+}
+
+.webproj.visitmalaysia .webproj__slide img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  object-fit:contain;
+  background:#ffffff;
+}
+
 /* =========================================================
    WEBSITE DESIGN GREEN PANEL
    ========================================================= */

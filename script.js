@@ -183,8 +183,18 @@
 })();
 
 /* ============================================================
-   VISIT MALAYSIA - ADAPTIVE IMAGE HEIGHT
-   Automatically adjusts slider height to the current image
+   VISIT MALAYSIA - NATURAL IMAGE HEIGHT
+   ------------------------------------------------------------
+   Portrait images stay portrait.
+   Landscape images stay landscape.
+
+   No:
+   - cropping
+   - stretching
+   - forced 4:3 ratio
+
+   The viewer automatically changes height according to
+   the currently displayed image.
    ============================================================ */
 
 document.querySelectorAll('.webproj.visitmalaysia').forEach(function(project){
@@ -194,42 +204,162 @@ document.querySelectorAll('.webproj.visitmalaysia').forEach(function(project){
   const slides = project.querySelectorAll('.webproj__slide');
   const images = project.querySelectorAll('.webproj__slide img');
 
-  function updateHeight(){
+  if (!viewer || !track || !slides.length || !images.length){
+    return;
+  }
+
+
+  /* ----------------------------------------------------------
+     GET CURRENT SLIDE
+     ---------------------------------------------------------- */
+
+  function getCurrentIndex(){
 
     const viewerWidth = viewer.clientWidth;
 
-    if (!viewerWidth) return;
+    if (!viewerWidth){
+      return 0;
+    }
 
-    const currentScroll = track.scrollLeft;
-    const slideWidth = viewerWidth;
-
-    let currentIndex = Math.round(currentScroll / slideWidth);
-
-    currentIndex = Math.max(
-      0,
-      Math.min(currentIndex, images.length - 1)
+    const index = Math.round(
+      track.scrollLeft / viewerWidth
     );
+
+    return Math.max(
+      0,
+      Math.min(
+        index,
+        images.length - 1
+      )
+    );
+
+  }
+
+
+  /* ----------------------------------------------------------
+     UPDATE VIEWER HEIGHT
+     ---------------------------------------------------------- */
+
+  function updateHeight(){
+
+    const currentIndex = getCurrentIndex();
 
     const image = images[currentIndex];
 
-    if (!image || !image.naturalWidth || !image.naturalHeight) return;
+    if (!image){
+      return;
+    }
 
-    const imageRatio = image.naturalWidth / image.naturalHeight;
+    /* Wait until the image has loaded */
+    if (!image.naturalWidth || !image.naturalHeight){
+      return;
+    }
 
-    const newHeight = viewerWidth / imageRatio;
+    const viewerWidth = viewer.clientWidth;
 
-    viewer.style.height = newHeight + 'px';
+    if (!viewerWidth){
+      return;
+    }
+
+    /*
+      Calculate the natural height.
+
+      Example:
+
+      Landscape:
+      1920 x 1080
+      ratio = 1080 / 1920
+      height becomes shorter
+
+      Portrait:
+      1080 x 1920
+      ratio = 1920 / 1080
+      height becomes taller
+    */
+
+    const ratio =
+      image.naturalHeight /
+      image.naturalWidth;
+
+    const naturalHeight =
+      viewerWidth * ratio;
+
+
+    viewer.style.height =
+      naturalHeight + 'px';
+
   }
 
+
+  /* ----------------------------------------------------------
+     IMAGE LOADING
+     ---------------------------------------------------------- */
+
   images.forEach(function(image){
-    image.addEventListener('load', updateHeight);
+
+    if (image.complete){
+
+      updateHeight();
+
+    }else{
+
+      image.addEventListener(
+        'load',
+        updateHeight
+      );
+
+    }
+
   });
 
-  track.addEventListener('scroll', function(){
-    window.requestAnimationFrame(updateHeight);
-  });
 
-  window.addEventListener('resize', updateHeight);
+  /* ----------------------------------------------------------
+     SLIDER SCROLL
+     ---------------------------------------------------------- */
 
-  setTimeout(updateHeight, 100);
+  track.addEventListener(
+    'scroll',
+    function(){
+
+      window.requestAnimationFrame(
+        updateHeight
+      );
+
+    },
+    {
+      passive:true
+    }
+  );
+
+
+  /* ----------------------------------------------------------
+     WINDOW RESIZE
+     ---------------------------------------------------------- */
+
+  window.addEventListener(
+    'resize',
+    function(){
+
+      window.requestAnimationFrame(
+        updateHeight
+      );
+
+    }
+  );
+
+
+  /* ----------------------------------------------------------
+     INITIAL HEIGHT
+     ---------------------------------------------------------- */
+
+  setTimeout(
+    updateHeight,
+    100
+  );
+
+  setTimeout(
+    updateHeight,
+    500
+  );
+
 });

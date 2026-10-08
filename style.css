@@ -1098,42 +1098,7 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
   .webproj__info{ padding:26px 28px; align-self:center; }
 }
 
-/* ---------- VISIT MALAYSIA IMAGE DISPLAY ---------- */
 
-.webproj.visitmalaysia .webproj__slide img{
-  object-fit: contain;
-  background: #ffffff;
-}
-
-/* ============================================================
-   VISIT MALAYSIA - ADAPTIVE IMAGE SLIDER
-   Keeps portrait and landscape screenshots uncropped
-   ============================================================ */
-
-.webproj.visitmalaysia .webproj__viewer{
-  aspect-ratio:auto;
-  height:auto;
-  transition:height .25s ease;
-}
-
-.webproj.visitmalaysia .webproj__track{
-  height:auto;
-  align-items:flex-start;
-}
-
-.webproj.visitmalaysia .webproj__slide{
-  height:auto;
-  flex:0 0 100%;
-}
-
-.webproj.visitmalaysia .webproj__slide img{
-  display:block;
-  width:100%;
-  height:auto;
-  max-width:100%;
-  object-fit:contain;
-  background:#ffffff;
-}
 
 /* =========================================================
    WEBSITE DESIGN GREEN PANEL
@@ -1674,111 +1639,240 @@ table{
 }
 
 /* ============================================================
-   DESKTOP CONTENT SIZE FIX
-   Makes the portfolio content wider and easier to see on
-   laptops and desktop screens without changing mobile.
+   VISIT MALAYSIA - NATURAL IMAGE RATIO
+   ------------------------------------------------------------
+   M4 Gallery and GrooveHive keep their normal 4:3 slider.
+
+   Visit Malaysia is different:
+   - Portrait screenshots stay portrait
+   - Landscape screenshots stay landscape
+   - Images are not cropped
+   - Images are not stretched
+   - Image height follows its natural aspect ratio
    ============================================================ */
 
-@media (min-width: 900px){
+.webproj.visitmalaysia{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
 
-  :root{
-    --maxw: 1680px;
-    --pad: clamp(32px, 4vw, 72px);
-  }
+/* ------------------------------------------------------------
+   VISIT MALAYSIA VIEWER
+   ------------------------------------------------------------ */
 
-  /* ABOUT */
-  .about{
-    max-width: 1680px;
-  }
+.webproj.visitmalaysia .webproj__viewer{
+  position:relative;
+  width:100%;
+  max-width:100%;
+  min-width:0;
 
-  .about__top{
-    gap: clamp(50px, 6vw, 100px);
-  }
+  /* Remove the normal 4:3 box */
+  aspect-ratio:auto;
 
-  .about__intro p{
-    max-width: 70ch;
-    font-size: 1.05rem;
-  }
+  /* Allow JavaScript to set the natural height */
+  height:auto;
 
-  .about__cols{
-    gap: clamp(40px, 5vw, 90px);
-  }
+  overflow:hidden;
 
-  /* SKILLS & STRENGTHS */
-  .logos{
-    max-width: 1680px;
-  }
-
-  .logos__head{
-    max-width: 1400px;
-  }
-
-  .logos__note{
-    max-width: 65ch;
-    font-size: 1rem;
-  }
-
-  .logos__category{
-    max-width: 1680px;
-  }
-
-  /* WEBSITE PROJECTS */
-  .webproj{
-    width: 100%;
-  }
-
-  /* PROJECT SECTION */
-  .work{
-    width: 100%;
-  }
-
-  /* CONTACT */
-  .contact{
-    max-width: 1680px;
-  }
-
-  .contact__rows{
-    gap: clamp(40px, 5vw, 90px);
-  }
+  background:#ffffff;
 }
 
 
-/* ============================================================
-   LARGE DESKTOP
-   ============================================================ */
+/* ------------------------------------------------------------
+   VISIT MALAYSIA TRACK
+   ------------------------------------------------------------ */
 
-@media (min-width: 1400px){
+.webproj.visitmalaysia .webproj__track{
+  display:flex;
 
-  body{
-    font-size: 18px;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+
+  height:auto;
+
+  overflow-x:hidden;
+  overflow-y:hidden;
+
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+
+  align-items:flex-start;
+}
+
+.webproj.visitmalaysia .webproj__track::-webkit-scrollbar{
+  display:none;
+}
+
+
+/* ------------------------------------------------------------
+   VISIT MALAYSIA SLIDES
+   ------------------------------------------------------------ */
+
+.webproj.visitmalaysia .webproj__slide{
+  flex:0 0 100%;
+
+  width:100%;
+  max-width:100%;
+  min-width:100%;
+
+  height:auto;
+
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+
+  background:#ffffff;
+}
+
+
+/* ------------------------------------------------------------
+   VISIT MALAYSIA IMAGES
+   ------------------------------------------------------------ */
+
+.webproj.visitmalaysia .webproj__slide img{
+  display:block;
+
+  width:100%;
+  max-width:100%;
+
+  /* IMPORTANT:
+     Natural height keeps portrait and landscape ratios */
+  height:auto;
+
+  /* Never crop or stretch */
+  object-fit:contain;
+
+  background:#ffffff;
+}
+
+
+/* ------------------------------------------------------------
+   EMPTY IMAGE PLACEHOLDER
+   ------------------------------------------------------------ */
+
+.webproj.visitmalaysia .webproj__slide.is-empty{
+  position:relative;
+  min-height:240px;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,.04) 0 12px,
+      transparent 12px 24px
+    );
+}
+
+.webproj.visitmalaysia .webproj__slide.is-empty img{
+  display:none;
+}
+
+.webproj.visitmalaysia .webproj__slide.is-empty::before{
+  content:"Add screenshot";
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:240px;
+
+  color:rgba(0,0,0,.35);
+
+  font-size:.85rem;
+  text-align:center;
+
+  padding:0 16px;
+}
+
+
+/* ------------------------------------------------------------
+   VISIT MALAYSIA ARROWS
+   ------------------------------------------------------------ */
+
+.webproj.visitmalaysia .webproj__arrow{
+  z-index:5;
+}
+
+
+/* ------------------------------------------------------------
+   VISIT MALAYSIA COUNTER
+   ------------------------------------------------------------ */
+
+.webproj.visitmalaysia .webproj__counter{
+  z-index:5;
+}
+
+
+/* ------------------------------------------------------------
+   DESKTOP
+   ------------------------------------------------------------ */
+
+@media (min-width:900px){
+
+  .webproj.visitmalaysia{
+    grid-template-columns:1.3fr 1fr;
   }
 
-  .about__intro p{
-    font-size: 1.08rem;
+  .webproj.visitmalaysia .webproj__viewer{
+    aspect-ratio:auto;
+    height:auto;
   }
 
-  .col__item p,
-  .skills li{
-    font-size: 1rem;
+  .webproj.visitmalaysia .webproj__info{
+    align-self:center;
   }
 
-  .logos__label{
-    font-size: 1.6rem;
+}
+
+
+/* ------------------------------------------------------------
+   SMALL PHONES
+   ------------------------------------------------------------ */
+
+@media (max-width:390px){
+
+  .webproj.visitmalaysia .webproj__viewer{
+    width:100%;
   }
 
-  .webproj__info{
-    padding: 36px 42px;
+  .webproj.visitmalaysia .webproj__slide img{
+    width:100%;
+    height:auto;
   }
 
-  .webproj__title{
-    font-size: 1.4rem;
+}
+
+
+/* ------------------------------------------------------------
+   LANDSCAPE PHONES
+   ------------------------------------------------------------ */
+
+@media (max-width:899px) and (orientation:landscape){
+
+  .webproj.visitmalaysia .webproj__viewer{
+    max-height:none;
+    height:auto;
   }
 
-  .webproj__info > p:not(.webproj__kicker){
-    font-size: 1rem;
+  .webproj.visitmalaysia .webproj__slide img{
+    height:auto;
+    max-height:none;
   }
 
-  .contact__rows{
-    font-size: 1rem;
+}
+
+
+/* ------------------------------------------------------------
+   TOUCH DEVICES
+   ------------------------------------------------------------ */
+
+@media (hover:none) and (pointer:coarse){
+
+  .webproj.visitmalaysia .webproj__arrow{
+    width:42px;
+    height:42px;
   }
+
 }

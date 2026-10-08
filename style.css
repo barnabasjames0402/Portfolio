@@ -1672,3 +1672,113 @@ table{
   }
 
 }
+
+/* ============================================================
+   DESKTOP CONTENT SIZE FIX
+   Makes the portfolio content wider and easier to see on
+   laptops and desktop screens without changing mobile.
+   ============================================================ */
+
+@media (min-width: 900px){
+
+  :root{
+    --maxw: 1680px;
+    --pad: clamp(32px, 4vw, 72px);
+  }
+
+  /* ABOUT */
+  .about{
+    max-width: 1680px;
+  }
+
+  .about__top{
+    gap: clamp(50px, 6vw, 100px);
+  }
+
+  .about__intro p{
+    max-width: 70ch;
+    font-size: 1.05rem;
+  }
+
+  .about__cols{
+    gap: clamp(40px, 5vw, 90px);
+  }
+
+  /* SKILLS & STRENGTHS */
+  .logos{
+    max-width: 1680px;
+  }
+
+  .logos__head{
+    max-width: 1400px;
+  }
+
+  .logos__note{
+    max-width: 65ch;
+    font-size: 1rem;
+  }
+
+  .logos__category{
+    max-width: 1680px;
+  }
+
+  /* WEBSITE PROJECTS */
+  .webproj{
+    width: 100%;
+  }
+
+  /* PROJECT SECTION */
+  .work{
+    width: 100%;
+  }
+
+  /* CONTACT */
+  .contact{
+    max-width: 1680px;
+  }
+
+  .contact__rows{
+    gap: clamp(40px, 5vw, 90px);
+  }
+}
+
+
+/* ============================================================
+   LARGE DESKTOP
+   ============================================================ */
+
+@media (min-width: 1400px){
+
+  body{
+    font-size: 18px;
+  }
+
+  .about__intro p{
+    font-size: 1.08rem;
+  }
+
+  .col__item p,
+  .skills li{
+    font-size: 1rem;
+  }
+
+  .logos__label{
+    font-size: 1.6rem;
+  }
+
+  .webproj__info{
+    padding: 36px 42px;
+  }
+
+  .webproj__title{
+    font-size: 1.4rem;
+  }
+
+  .webproj__info > p:not(.webproj__kicker){
+    font-size: 1rem;
+  }
+
+  .contact__rows{
+    font-size: 1rem;
+  }
+}

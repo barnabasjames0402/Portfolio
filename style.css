@@ -1876,3 +1876,66 @@ table{
   }
 
 }
+
+/* ============================================================
+   FULL DESKTOP WIDTH
+   ------------------------------------------------------------
+   Keeps the portfolio content wide on desktop screens.
+
+   Mobile and tablet layouts stay unchanged.
+   ============================================================ */
+
+@media (min-width:1200px){
+
+  /* Remove the 1440px desktop limitation */
+  :root{
+    --maxw:100%;
+  }
+
+  /* Main sections */
+  .about,
+  .logos,
+  .contact{
+    width:100%;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+  }
+
+  /* Section content */
+  .about__top,
+  .about__cols{
+    width:100%;
+    max-width:none;
+  }
+
+  /* Skills / project categories */
+  .logos__category{
+    width:100%;
+    max-width:none;
+  }
+
+  .logos__grid{
+    width:100%;
+    max-width:none;
+  }
+
+  /* Website projects */
+  .webproj{
+    width:100%;
+    max-width:none;
+  }
+
+  /* Case studies */
+  .case{
+    width:100%;
+    max-width:none;
+  }
+
+  /* Contact */
+  .contact__rows{
+    width:100%;
+    max-width:none;
+  }
+
+}

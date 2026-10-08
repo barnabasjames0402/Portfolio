@@ -1097,6 +1097,14 @@ h1,h2,h3,p,li,a{ overflow-wrap:anywhere; }
   .webproj__viewer{ aspect-ratio:auto; height:100%; }
   .webproj__info{ padding:26px 28px; align-self:center; }
 }
+
+/* ---------- VISIT MALAYSIA IMAGE DISPLAY ---------- */
+
+.webproj.visitmalaysia .webproj__slide img{
+  object-fit: contain;
+  background: #ffffff;
+}
+
 /* =========================================================
    WEBSITE DESIGN GREEN PANEL
    ========================================================= */
